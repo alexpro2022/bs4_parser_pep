@@ -1,40 +1,38 @@
 import logging
 import re
-import requests_cache
-from bs4 import BeautifulSoup, SoupStrainer
 from urllib.parse import urljoin
 
+import requests_cache
+from bs4 import BeautifulSoup, SoupStrainer
 from tqdm import tqdm
 
 from configs import configure_argument_parser, configure_logging
-from constants import (
-    BASE_DIR,
-    DOWNLOADS_URL,
-    EXPECTED_STATUS,
-    MAIN_DOC_URL,
-    PEPS_URL,
-    WHATS_NEW_URL,
-)
+from constants import (BASE_DIR, DOWNLOAD_PATTERN, DOWNLOADS_URL,
+                       EXPECTED_STATUS, MAIN_DOC_URL, PARSER, PEPS_URL,
+                       VERSION_PATTERN, WHATS_NEW_URL, HTMLTag)
 from outputs import control_output
-from utils import get_response, find_tag
+from utils import find_tag, get_response
 
 
 def whats_new(session):
     response = get_response(session, WHATS_NEW_URL)
     if response is None:
         return
-    soup = BeautifulSoup(response.text, features='lxml')
-    main_div = find_tag(soup, 'section', {'id': 'what-s-new-in-python'})
-    div_with_ul = find_tag(main_div, 'div', {'class': 'toctree-wrapper'})
-    sections_by_python = div_with_ul.find_all('li', {'class': 'toctree-l1'})
-
+    soup = BeautifulSoup(response.text, PARSER)
+    main_div = find_tag(
+        soup, HTMLTag.SECTION, {HTMLTag.ID: 'what-s-new-in-python'})
+    div_with_ul = find_tag(
+        main_div, HTMLTag.DIV, {HTMLTag.CLASS: 'toctree-wrapper'})
+    sections_by_python = div_with_ul.find_all(
+        'li', {HTMLTag.CLASS: 'toctree-l1'})
     results = [('Ссылка на статью', 'Заголовок', 'Редактор, Автор')]
     for section in tqdm(sections_by_python):
-        version_link = urljoin(WHATS_NEW_URL, section.find('a')['href'])
+        version_link = urljoin(
+            WHATS_NEW_URL, section.find(HTMLTag.A)[HTMLTag.HREF])
         response = get_response(session, version_link)
         if response is None:
             continue
-        soup = BeautifulSoup(response.text, 'lxml')
+        soup = BeautifulSoup(response.text, PARSER)
         h1 = find_tag(soup, 'h1').text
         dl = find_tag(soup, 'dl').text.replace('\n', ' ')
         results.append((version_link, h1, dl))
@@ -45,22 +43,20 @@ def latest_versions(session):
     response = get_response(session, MAIN_DOC_URL)
     if response is None:
         return
-    soup = BeautifulSoup(response.text, 'lxml')
-    sidebar = find_tag(soup, 'div', {'class': 'sphinxsidebarwrapper'})
+    soup = BeautifulSoup(response.text, PARSER)
+    sidebar = find_tag(
+        soup, HTMLTag.DIV, {HTMLTag.CLASS: 'sphinxsidebarwrapper'})
     ul_tags = sidebar.find_all('ul')
     for ul in ul_tags:
         if 'All versions' in ul.text:
-            a_tags = ul.find_all('a')
+            a_tags = ul.find_all(HTMLTag.A)
             break
     else:
         raise Exception('Не найден список c версиями Python')
     results = [('Ссылка на документацию', 'Версия', 'Статус')]
-    # pattern = r'Python (?P<version>\d\.\d+) \((?P<status>.*)\)'
-    # pattern = r'\w+ (?P<version>\d\.\d+) \((?P<status>.*)\)'
-    pattern = r'\w+ (\d\.\d+) \((.*)\)'
     for tag in a_tags:
-        link = tag['href']
-        text_match = re.match(pattern, tag.text)
+        link = tag[HTMLTag.HREF]
+        text_match = re.match(VERSION_PATTERN, tag.text)
         if text_match is None:
             version, status = tag.text, ''
         else:
@@ -73,11 +69,11 @@ def download(session):
     response = get_response(session, DOWNLOADS_URL)
     if response is None:
         return
-    soup = BeautifulSoup(response.text, 'lxml')
-    pattern = r'.+pdf-a4\.zip$'
-    table_tag = find_tag(soup, 'table', {'class': 'docutils'})
-    a4_pdf_tag = find_tag(table_tag, 'a', {'href': re.compile(pattern)})
-    url = urljoin(DOWNLOADS_URL, a4_pdf_tag['href'])
+    soup = BeautifulSoup(response.text, PARSER)
+    table_tag = find_tag(soup, 'table', {HTMLTag.CLASS: 'docutils'})
+    a4_pdf_tag = find_tag(
+        table_tag, HTMLTag.A, {HTMLTag.HREF: re.compile(DOWNLOAD_PATTERN)})
+    url = urljoin(DOWNLOADS_URL, a4_pdf_tag[HTMLTag.HREF])
     filename = url.split('/')[-1]
     downloads_dir = BASE_DIR / 'downloads'
     downloads_dir.mkdir(exist_ok=True)
@@ -94,21 +90,21 @@ def pep(session):
     if response is None:
         return
     table = BeautifulSoup(
-        response.text, 'lxml',
-        parse_only=SoupStrainer('section', id='numerical-index'),
+        response.text, PARSER,
+        parse_only=SoupStrainer(HTMLTag.SECTION, id='numerical-index'),
     )
     for row in table.find_all('tr'):
         ref = row.find(class_='pep reference internal')
         if ref is None:
             continue
-        pep_link = urljoin(PEPS_URL, ref['href'])
+        pep_link = urljoin(PEPS_URL, ref[HTMLTag.HREF])
         response = get_response(session, pep_link)
         if response is None:
             continue
-        rfc2822 = SoupStrainer('dl', class_='rfc2822 field-list simple')
         soup = BeautifulSoup(
-            response.text, 'lxml',
-            parse_only=rfc2822,
+            response.text, PARSER,
+            parse_only=SoupStrainer(
+                'dl', class_='rfc2822 field-list simple'),
         )
         cart_status = soup.find(
             string='Status').parent.find_next_sibling().text
@@ -122,8 +118,8 @@ def pep(session):
             )
         status_counter[cart_status] = status_counter.get(cart_status, 0) + 1
     results = [('Статус', 'Количество')]
-    for item in status_counter.items():
-        results.append(item)
+    for key, value in status_counter.items():
+        results.append((key, value))
     total = sum(status_counter.values())
     results.append(('Total', total))
     return results
