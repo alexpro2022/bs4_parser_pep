@@ -79,11 +79,13 @@ cd src
 ## Запуск:
 
 Запуск осуществляется по команде `python main.py` и добавлений нужной функции например:
-    ```
-    python main.py latest-versions
-    ```
-    Вывод для такого ввода будет таким:
-    ```cmd
+```
+python main.py latest-versions
+```
+
+Вывод для такого ввода будет таким:
+
+```
 "2022-12-13_17-49-40 - [INFO] - Парсер запущен!"
 "2022-12-13_17-49-40 - [INFO] - Аргументы командной строки: Namespace(mode='latest-versions', clear_cache=False, output=None)"
 Ссылка на документацию Версия Статус
@@ -98,8 +100,8 @@ https://docs.python.org/3.5/ 3.5 EOL
 https://docs.python.org/2.7/ 2.7 EOL
 https://www.python.org/doc/versions/ All versions 
 "2022-12-13_17-49-40 - [INFO] - Парсер завершил работу."
-    ...
-    ```
+```
+
     <a href="#t2">Смотри замечание</a>
 
 - При использвании доп. команд (`-o pretty` или `-o file`) вывод будет либо оформлен в виде таблицы и
