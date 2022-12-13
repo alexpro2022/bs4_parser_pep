@@ -109,7 +109,7 @@ options:
 
 
 ## Запуск:
-Запуск осуществляется по команде `python main.py` и добавлений нужной функции режима работы, например:
+Осуществляется по команде `python main.py` и добавлений нужной функции режима работы, например:
 ```
 $ python main.py latest-versions
 
@@ -160,21 +160,20 @@ $ python main.py latest-versions -o pretty
 <a href="#t2">Смотри замечание</a>  
 <hr>  
 
-<a id="t2">Замечание</a>  
+<h4 id="t2">Замечание</h4>  
 Данный вывод действителен только для режимов пп 1-3 (см. [описание работы](#описание-работы))
 
 [⬆️Оглавление](#оглавление)
 
 
 ## Автор
-[Aleksei Proskuriakov](https://github.com/alexpro2022)  
-[в начало](#парсер-manual-по-python)
+[Aleksei Proskuriakov](https://github.com/alexpro2022)
 
 
 ## Приложения:
 <details open>
   <summary>
-    <h3 id="t1"> Структура проекта </h2>
+    <h3 id="t1"> Структура проекта </h3>
   </summary>
 
 ```cmd
@@ -207,5 +206,6 @@ bs4_parser_pep:
 \---venv
 
 ```
-
 </details>
+
+[в начало](#Проект-парсинга-pep)
