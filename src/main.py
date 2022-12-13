@@ -20,24 +20,24 @@ def whats_new(session):
     response = get_response(session, WHATS_NEW_URL)
     if response is None:
         return
-    section = BeautifulSoup(
+    results = [('Ссылка на статью', 'Заголовок', 'Редактор, Автор')]
+    main_section = BeautifulSoup(
         response.text, PARSER,
         parse_only=SoupStrainer(
             HTMLTag.SECTION,
             {HTMLTag.ID: WHATS_NEW_SECTION}
         )
     )
-    div_with_ul = find_tag(
-        section, HTMLTag.DIV,
+    sections_by_python = find_tag(
+        main_section, HTMLTag.DIV,
         {HTMLTag.CLASS: 'toctree-wrapper'}
-    )
-    sections_by_python = div_with_ul.find_all(
-        'li', {HTMLTag.CLASS: 'toctree-l1'}
-    )
-    results = [('Ссылка на статью', 'Заголовок', 'Редактор, Автор')]
+    )('li', {HTMLTag.CLASS: 'toctree-l1'})
+
     for section in tqdm(sections_by_python):
         version_link = urljoin(
-            WHATS_NEW_URL, section.find(HTMLTag.A)[HTMLTag.HREF])
+            WHATS_NEW_URL,
+            section.find(HTMLTag.A)[HTMLTag.HREF]
+        )
         response = get_response(session, version_link)
         if response is None:
             continue
@@ -52,19 +52,20 @@ def latest_versions(session):
     response = get_response(session, MAIN_DOC_URL)
     if response is None:
         return
-    sidebar = BeautifulSoup(
+    sidebar_ul_tags = BeautifulSoup(
         response.text, PARSER,
         parse_only=SoupStrainer(
             HTMLTag.DIV, {HTMLTag.CLASS: LATEST_VERSIONS_SIDEBAR}
         )
-    )
-    ul_tags = sidebar.find_all('ul')
-    for ul in ul_tags:
+    )('ul')
+
+    for ul in sidebar_ul_tags:
         if 'All versions' in ul.text:
-            a_tags = ul.find_all(HTMLTag.A)
+            a_tags = ul(HTMLTag.A)
             break
     else:
         raise Exception('Не найден список c версиями Python')
+
     results = [('Ссылка на документацию', 'Версия', 'Статус')]
     for tag in a_tags:
         link = tag[HTMLTag.HREF]
@@ -107,11 +108,12 @@ def pep(session):
     if response is None:
         return
     status_counter = {}
-    table = BeautifulSoup(
+    table_rows = BeautifulSoup(
         response.text, PARSER,
         parse_only=SoupStrainer(HTMLTag.SECTION, id=PEP_NUMERICAL_INDEX)
-    )
-    for row in table.find_all('tr'):
+    )('tr')
+
+    for row in table_rows:
         ref = row.find(class_=PEP_REFERENCE)
         if ref is None:
             continue
@@ -119,12 +121,10 @@ def pep(session):
         response = get_response(session, pep_link)
         if response is None:
             continue
-        soup = BeautifulSoup(
+        cart_status = BeautifulSoup(
             response.text, PARSER,
             parse_only=SoupStrainer('dl', class_=PEP_PAGE_CART)
-        )
-        cart_status = soup.find(
-            string='Status').parent.find_next_sibling().text
+        ).find(string='Status').parent.find_next_sibling().text
         expected_status = EXPECTED_STATUS[row.find('td').text[1:]]
         if cart_status not in expected_status:
             logging.info(
@@ -134,11 +134,11 @@ def pep(session):
                 f'Ожидаемые статусы: {expected_status}\n'
             )
         status_counter[cart_status] = status_counter.get(cart_status, 0) + 1
+
     results = [('Статус', 'Количество')]
     for key, value in status_counter.items():
         results.append((key, value))
-    total = sum(status_counter.values())
-    results.append(('Total', total))
+    results.append(('Total', sum(status_counter.values())))
     return results
 
 
