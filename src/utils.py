@@ -14,7 +14,8 @@ def get_response(session, url):
     except RequestException:
         logging.exception(
             f'Возникла ошибка при загрузке страницы {url}',
-            stack_info=True)
+            stack_info=True
+        )
 
 
 def find_tag(soup, tag, attrs=None):

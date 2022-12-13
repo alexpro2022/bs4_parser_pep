@@ -8,8 +8,10 @@ from tqdm import tqdm
 
 from configs import configure_argument_parser, configure_logging
 from constants import (BASE_DIR, DOWNLOAD_PATTERN, DOWNLOADS_URL,
-                       EXPECTED_STATUS, MAIN_DOC_URL, PARSER, PEPS_URL,
-                       VERSION_PATTERN, WHATS_NEW_URL, HTMLTag)
+                       EXPECTED_STATUS, LATEST_VERSIONS_SIDEBAR, MAIN_DOC_URL,
+                       PARSER, PEP_NUMERICAL_INDEX, PEP_PAGE_CART,
+                       PEP_REFERENCE, PEPS_URL, VERSION_PATTERN,
+                       WHATS_NEW_SECTION, WHATS_NEW_URL, HTMLTag)
 from outputs import control_output
 from utils import find_tag, get_response
 
@@ -18,13 +20,20 @@ def whats_new(session):
     response = get_response(session, WHATS_NEW_URL)
     if response is None:
         return
-    soup = BeautifulSoup(response.text, PARSER)
-    main_div = find_tag(
-        soup, HTMLTag.SECTION, {HTMLTag.ID: 'what-s-new-in-python'})
+    section = BeautifulSoup(
+        response.text, PARSER,
+        parse_only=SoupStrainer(
+            HTMLTag.SECTION,
+            {HTMLTag.ID: WHATS_NEW_SECTION}
+        )
+    )
     div_with_ul = find_tag(
-        main_div, HTMLTag.DIV, {HTMLTag.CLASS: 'toctree-wrapper'})
+        section, HTMLTag.DIV,
+        {HTMLTag.CLASS: 'toctree-wrapper'}
+    )
     sections_by_python = div_with_ul.find_all(
-        'li', {HTMLTag.CLASS: 'toctree-l1'})
+        'li', {HTMLTag.CLASS: 'toctree-l1'}
+    )
     results = [('Ссылка на статью', 'Заголовок', 'Редактор, Автор')]
     for section in tqdm(sections_by_python):
         version_link = urljoin(
@@ -43,9 +52,12 @@ def latest_versions(session):
     response = get_response(session, MAIN_DOC_URL)
     if response is None:
         return
-    soup = BeautifulSoup(response.text, PARSER)
-    sidebar = find_tag(
-        soup, HTMLTag.DIV, {HTMLTag.CLASS: 'sphinxsidebarwrapper'})
+    sidebar = BeautifulSoup(
+        response.text, PARSER,
+        parse_only=SoupStrainer(
+            HTMLTag.DIV, {HTMLTag.CLASS: LATEST_VERSIONS_SIDEBAR}
+        )
+    )
     ul_tags = sidebar.find_all('ul')
     for ul in ul_tags:
         if 'All versions' in ul.text:
@@ -69,32 +81,38 @@ def download(session):
     response = get_response(session, DOWNLOADS_URL)
     if response is None:
         return
-    soup = BeautifulSoup(response.text, PARSER)
-    table_tag = find_tag(soup, 'table', {HTMLTag.CLASS: 'docutils'})
+    table = BeautifulSoup(
+        response.text, PARSER,
+        parse_only=SoupStrainer('table', class_='docutils')
+    )
     a4_pdf_tag = find_tag(
-        table_tag, HTMLTag.A, {HTMLTag.HREF: re.compile(DOWNLOAD_PATTERN)})
+        table, HTMLTag.A,
+        {HTMLTag.HREF: re.compile(DOWNLOAD_PATTERN)}
+    )
     url = urljoin(DOWNLOADS_URL, a4_pdf_tag[HTMLTag.HREF])
     filename = url.split('/')[-1]
     downloads_dir = BASE_DIR / 'downloads'
     downloads_dir.mkdir(exist_ok=True)
     path = downloads_dir / filename
-    response = session.get(url)
+    response = get_response(session, url)
+    if response is None:
+        return
     with open(path, 'wb') as file:
         file.write(response.content)
     logging.info(f'Архив был загружен и сохранён: {path}')
 
 
 def pep(session):
-    status_counter = {}
     response = get_response(session, PEPS_URL)
     if response is None:
         return
+    status_counter = {}
     table = BeautifulSoup(
         response.text, PARSER,
-        parse_only=SoupStrainer(HTMLTag.SECTION, id='numerical-index'),
+        parse_only=SoupStrainer(HTMLTag.SECTION, id=PEP_NUMERICAL_INDEX)
     )
     for row in table.find_all('tr'):
-        ref = row.find(class_='pep reference internal')
+        ref = row.find(class_=PEP_REFERENCE)
         if ref is None:
             continue
         pep_link = urljoin(PEPS_URL, ref[HTMLTag.HREF])
@@ -103,8 +121,7 @@ def pep(session):
             continue
         soup = BeautifulSoup(
             response.text, PARSER,
-            parse_only=SoupStrainer(
-                'dl', class_='rfc2822 field-list simple'),
+            parse_only=SoupStrainer('dl', class_=PEP_PAGE_CART)
         )
         cart_status = soup.find(
             string='Status').parent.find_next_sibling().text
@@ -139,11 +156,10 @@ def main():
     arg_parser = configure_argument_parser(MODE_TO_FUNCTION.keys())
     args = arg_parser.parse_args()
     logging.info(f'Аргументы командной строки: {args}')
-    parser_mode = args.mode
     session = requests_cache.CachedSession()
     if args.clear_cache:
         session.cache.clear()
-    results = MODE_TO_FUNCTION[parser_mode](session)
+    results = MODE_TO_FUNCTION[args.mode](session)
     if results is not None:
         control_output(results, args)
     logging.info('Парсер завершил работу.')

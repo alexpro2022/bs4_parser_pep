@@ -21,6 +21,11 @@ EXPECTED_STATUS = {
     '': ('Draft', 'Active'),
 }
 PARSER = 'lxml'
+PEP_NUMERICAL_INDEX = 'numerical-index'
+PEP_REFERENCE = 'pep reference internal'
+PEP_PAGE_CART = 'rfc2822 field-list simple'
+LATEST_VERSIONS_SIDEBAR = 'sphinxsidebarwrapper'
+WHATS_NEW_SECTION = 'what-s-new-in-python'
 
 # шаблон для поиска zip-архива с документами в формате PDF (A4 paper size)
 DOWNLOAD_PATTERN = r'.+pdf-a4\.zip$'

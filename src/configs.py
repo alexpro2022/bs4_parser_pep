@@ -36,4 +36,5 @@ def configure_logging():
         datefmt=DATETIME_FORMAT,
         format=LOG_FORMAT,
         level=logging.INFO,
-        handlers=(rotating_handler, logging.StreamHandler()))
+        handlers=(rotating_handler, logging.StreamHandler())
+    )
