@@ -12,6 +12,7 @@ from constants import (BASE_DIR, DOWNLOAD_PATTERN, DOWNLOADS_URL,
                        PARSER, PEP_NUMERICAL_INDEX, PEP_PAGE_CART,
                        PEP_REFERENCE, PEPS_URL, VERSION_PATTERN,
                        WHATS_NEW_SECTION, WHATS_NEW_URL, HTMLTag)
+from exceptions import ParserFindTagException
 from outputs import control_output
 from utils import find_tag, get_response
 
@@ -31,7 +32,7 @@ def whats_new(session):
     sections_by_python = find_tag(
         main_section, HTMLTag.DIV,
         {HTMLTag.CLASS: 'toctree-wrapper'}
-    )('li', {HTMLTag.CLASS: 'toctree-l1'})
+    )(HTMLTag.LI, {HTMLTag.CLASS: 'toctree-l1'})
 
     for section in tqdm(sections_by_python):
         version_link = urljoin(
@@ -52,29 +53,29 @@ def latest_versions(session):
     response = get_response(session, MAIN_DOC_URL)
     if response is None:
         return
+    results = [('Ссылка на документацию', 'Версия', 'Статус')]
     sidebar_ul_tags = BeautifulSoup(
         response.text, PARSER,
         parse_only=SoupStrainer(
             HTMLTag.DIV, {HTMLTag.CLASS: LATEST_VERSIONS_SIDEBAR}
         )
-    )('ul')
+    )(HTMLTag.UL)
 
     for ul in sidebar_ul_tags:
         if 'All versions' in ul.text:
             a_tags = ul(HTMLTag.A)
             break
-    else:
-        raise Exception('Не найден список c версиями Python')
-
-    results = [('Ссылка на документацию', 'Версия', 'Статус')]
-    for tag in a_tags:
-        link = tag[HTMLTag.HREF]
-        text_match = re.match(VERSION_PATTERN, tag.text)
-        if text_match is None:
-            version, status = tag.text, ''
-        else:
-            version, status = text_match.groups()
-        results.append((link, version, status))
+    try:
+        for tag in a_tags:
+            link = tag[HTMLTag.HREF]
+            text_match = re.match(VERSION_PATTERN, tag.text)
+            if text_match is None:
+                version, status = tag.text, ''
+            else:
+                version, status = text_match.groups()
+            results.append((link, version, status))
+    except UnboundLocalError:
+        raise ParserFindTagException('Не найден список c версиями Python')
     return results
 
 
@@ -84,7 +85,7 @@ def download(session):
         return
     table = BeautifulSoup(
         response.text, PARSER,
-        parse_only=SoupStrainer('table', class_='docutils')
+        parse_only=SoupStrainer(HTMLTag.TABLE, class_='docutils')
     )
     a4_pdf_tag = find_tag(
         table, HTMLTag.A,
@@ -95,6 +96,8 @@ def download(session):
     downloads_dir = BASE_DIR / 'downloads'
     downloads_dir.mkdir(exist_ok=True)
     path = downloads_dir / filename
+    # DOWNLOADS.mkdir(exist_ok=True)
+    # path = DOWNLOADS / filename
     response = get_response(session, url)
     if response is None:
         return
@@ -111,7 +114,7 @@ def pep(session):
     table_rows = BeautifulSoup(
         response.text, PARSER,
         parse_only=SoupStrainer(HTMLTag.SECTION, id=PEP_NUMERICAL_INDEX)
-    )('tr')
+    )(HTMLTag.TR)
 
     for row in table_rows:
         ref = row.find(class_=PEP_REFERENCE)
@@ -123,9 +126,9 @@ def pep(session):
             continue
         cart_status = BeautifulSoup(
             response.text, PARSER,
-            parse_only=SoupStrainer('dl', class_=PEP_PAGE_CART)
+            parse_only=SoupStrainer(HTMLTag.DL, class_=PEP_PAGE_CART)
         ).find(string='Status').parent.find_next_sibling().text
-        expected_status = EXPECTED_STATUS[row.find('td').text[1:]]
+        expected_status = EXPECTED_STATUS[row.find(HTMLTag.TD).text[1:]]
         if cart_status not in expected_status:
             logging.info(
                 f'Несовпадающие статусы:\n'

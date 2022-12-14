@@ -3,6 +3,7 @@ from urllib.parse import urljoin
 
 BASE_DIR = Path(__file__).parent
 LOGS = BASE_DIR / 'logs'
+# DOWNLOADS = BASE_DIR / 'downloads'
 MAIN_DOC_URL = 'https://docs.python.org/3/'
 WHATS_NEW_URL = urljoin(MAIN_DOC_URL, 'whatsnew/')
 DOWNLOADS_URL = urljoin(MAIN_DOC_URL, 'download.html')
@@ -38,6 +39,12 @@ class HTMLTag:
     A = 'a'
     CLASS = 'class'
     DIV = 'div'
+    DL = 'dl'
     HREF = 'href'
     ID = 'id'
+    LI = 'li'
     SECTION = 'section'
+    TABLE = 'table'
+    TD = 'td'
+    TR = 'tr'
+    UL = 'ul'
