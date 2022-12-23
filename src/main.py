@@ -114,12 +114,10 @@ def pep(session):
     table_rows = BeautifulSoup(
         response.text, PARSER,
         parse_only=SoupStrainer(HTMLTag.SECTION, id=PEP_NUMERICAL_INDEX)
-    )(HTMLTag.TR)
+    ).find('tbody')(HTMLTag.TR)
 
     for row in table_rows:
         ref = row.find(class_=PEP_REFERENCE)
-        if ref is None:
-            continue
         pep_link = urljoin(PEPS_URL, ref[HTMLTag.HREF])
         response = get_response(session, pep_link)
         if response is None:
@@ -156,7 +154,7 @@ MODE_TO_FUNCTION = {
 def main():
     configure_logging()
     logging.info('Парсер запущен!')
-    arg_parser = configure_argument_parser(MODE_TO_FUNCTION.keys())
+    arg_parser = configure_argument_parser(MODE_TO_FUNCTION)
     args = arg_parser.parse_args()
     logging.info(f'Аргументы командной строки: {args}')
     session = requests_cache.CachedSession()
