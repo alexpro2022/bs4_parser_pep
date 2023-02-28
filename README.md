@@ -11,7 +11,7 @@
 
 
 ## Технологии
-#[![Python](https://warehouse-camo.ingress.cmh1.psfhosted.org/7c5873f1e0f4375465dfebd35bf18f678c74d717/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f7072657474797461626c652e7376673f6c6f676f3d707974686f6e266c6f676f436f6c6f723d464645383733)](https://www.python.org/)
+[![Python](https://warehouse-camo.ingress.cmh1.psfhosted.org/7c5873f1e0f4375465dfebd35bf18f678c74d717/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f7072657474797461626c652e7376673f6c6f676f3d707974686f6e266c6f676f436f6c6f723d464645383733)](https://www.python.org/)
 [![Argparse](https://img.shields.io/badge/-Argparse-464646?logo=python)](https://docs.python.org/3/howto/argparse.html)
 [![Pytest](https://img.shields.io/badge/-Pytest-464646?logo=pytest)](https://docs.pytest.org/en/latest/)
 [![Beautiful_Soup](https://img.shields.io/badge/-Beautiful_Soup_4-464646?logo=bs4)](https://beautiful-soup-4.readthedocs.io/en/latest/)
@@ -54,12 +54,24 @@ cd bs4_parser_pep
 3. Создать и активировать виртуальное окружение:
 ```
 python -m venv venv
-source venv/Scripts/activate
 ```
+* Если у вас Linux/macOS
+
+    ```
+    source venv/bin/activate
+    ```
+
+* Если у вас windows
+
+    ```
+    source venv/Scripts/activate
+    ```
 
 4. Установить все необходимые зависимости из файла **requirements.txt**:
 ```
+python -m pip install --upgrade pip
 pip install -r requirements.txt
+pip list
 ```
 
 5. Перейти в папку **src**:
