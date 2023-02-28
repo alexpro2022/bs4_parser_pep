@@ -11,12 +11,13 @@
 
 
 ## Технологии
-  - Парсинг данных (BeautifulSoup);
-  - Кеширвание первичного запроса (Requests_cache);
-  - Сбор логов на этапах парсинга (Logging);
-  - Отслеживание переданных аргументов в командной строке (Argparse);
-  - Вывод данных в формаие таблицы в консоль (PrettyTable);
-  - Прогресс-бар для отслеживание процесса парсинга (Tqdm).
+#[![Python](https://warehouse-camo.ingress.cmh1.psfhosted.org/7c5873f1e0f4375465dfebd35bf18f678c74d717/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f7072657474797461626c652e7376673f6c6f676f3d707974686f6e266c6f676f436f6c6f723d464645383733)](https://www.python.org/)
+[![Argparse](https://img.shields.io/badge/-Argparse-464646?logo=python)](https://docs.python.org/3/howto/argparse.html)
+[![Pytest](https://img.shields.io/badge/-Pytest-464646?logo=pytest)](https://docs.pytest.org/en/latest/)
+[![Beautiful_Soup](https://img.shields.io/badge/-Beautiful_Soup_4-464646?logo=bs4)](https://beautiful-soup-4.readthedocs.io/en/latest/)
+[![Requests_cache](https://img.shields.io/badge/-Requests--Cache-464646?logo=requests-cache)](https://requests-cache.readthedocs.io/en/stable/)
+[![PrettyTable](https://img.shields.io/badge/-Pretty_Table-464646?logo=prettytable)](https://pypi.org/project/prettytable/)
+[![Tqdm](https://img.shields.io/badge/-Tqdm-464646?logo=Tqdm)](https://github.com/tqdm/tqdm)
 
 [⬆️Оглавление](#оглавление)
 
