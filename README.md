@@ -13,13 +13,41 @@
 
 
 ## Технологии
+
+
+**Языки программирования, модули и библиотеки:**
+
 [![Python](https://warehouse-camo.ingress.cmh1.psfhosted.org/7c5873f1e0f4375465dfebd35bf18f678c74d717/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f7072657474797461626c652e7376673f6c6f676f3d707974686f6e266c6f676f436f6c6f723d464645383733)](https://www.python.org/)
-[![Argparse](https://img.shields.io/badge/-Argparse-464646?logo=python)](https://docs.python.org/3/howto/argparse.html)
-[![Pytest](https://img.shields.io/badge/-Pytest-464646?logo=pytest)](https://docs.pytest.org/en/latest/)
-[![Beautiful_Soup](https://img.shields.io/badge/-Beautiful_Soup_4-464646?logo=bs4)](https://beautiful-soup-4.readthedocs.io/en/latest/)
-[![Requests_cache](https://img.shields.io/badge/-Requests--Cache-464646?logo=requests-cache)](https://requests-cache.readthedocs.io/en/stable/)
+[![argparse](https://img.shields.io/badge/-argparse-464646?logo=python)](https://docs.python.org/3/howto/argparse.html)
+[![csv](https://img.shields.io/badge/-csv-464646?logo=python)](https://docs.python.org/3/library/csv.html)
+[![datetime](https://img.shields.io/badge/-datetime-464646?logo=python)](https://docs.python.org/3/library/datetime.html)
+[![enum](https://img.shields.io/badge/-enum-464646?logo=python)](https://docs.python.org/3/library/enum.html)
+[![logging](https://img.shields.io/badge/-logging-464646?logo=python)](https://docs.python.org/3/library/logging.html)
+[![pathlib](https://img.shields.io/badge/-pathlib-464646?logo=python)](https://docs.python.org/3/library/pathlib.html)
+[![re](https://img.shields.io/badge/-re-464646?logo=python)](https://docs.python.org/3/library/re.html)
+[![urllib](https://img.shields.io/badge/-urllib-464646?logo=python)](https://docs.python.org/3/library/urllib.html)
 [![PrettyTable](https://img.shields.io/badge/-Pretty_Table-464646?logo=prettytable)](https://pypi.org/project/prettytable/)
+[![Requests_cache](https://img.shields.io/badge/-Requests--Cache-464646?logo=requests-cache)](https://requests-cache.readthedocs.io/en/stable/)
 [![Tqdm](https://img.shields.io/badge/-Tqdm-464646?logo=Tqdm)](https://github.com/tqdm/tqdm)
+
+
+**Парсинг - библиотеки и модули:**
+
+[![Beautiful_Soup](https://img.shields.io/badge/-Beautiful_Soup_4-464646?logo=bs4)](https://beautiful-soup-4.readthedocs.io/en/latest/)
+
+
+**Тесты:**
+
+[![Pytest](https://img.shields.io/badge/-Pytest-464646?logo=Pytest)](https://docs.pytest.org/en/latest/)
+[![Pytest-cov](https://img.shields.io/badge/-Pytest--cov-464646?logo=Pytest)](https://pytest-cov.readthedocs.io/en/latest/)
+[![Coverage](https://img.shields.io/badge/-Coverage-464646?logo=Python)](https://coverage.readthedocs.io/en/latest/)
+
+
+**CI/CD:**
+
+[![GitHub](https://img.shields.io/badge/-GitHub-464646?logo=GitHub)](https://docs.github.com/en)
+[![GitHub_Actions](https://img.shields.io/badge/-GitHub_Actions-464646?logo=GitHub)](https://docs.github.com/en/actions)
+[![Telegram](https://img.shields.io/badge/-Telegram-464646?logo=Telegram)](https://core.telegram.org/api)
 
 [⬆️Оглавление](#оглавление)
 
