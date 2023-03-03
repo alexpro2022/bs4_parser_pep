@@ -14,14 +14,6 @@ class OutputType(str, Enum):
 
 
 def control_output(results, cli_args):
-    '''
-    if cli_args.output == OutputType.PRETTY:
-        pretty_output(results)
-    elif cli_args.output == OutputType.FILE:
-        file_output(results, cli_args)
-    else:
-        default_output(results)
-    '''
     match cli_args.output:
         case OutputType.PRETTY:
             pretty_output(results)

@@ -26,9 +26,10 @@
 [![pathlib](https://img.shields.io/badge/-pathlib-464646?logo=python)](https://docs.python.org/3/library/pathlib.html)
 [![re](https://img.shields.io/badge/-re-464646?logo=python)](https://docs.python.org/3/library/re.html)
 [![urllib](https://img.shields.io/badge/-urllib-464646?logo=python)](https://docs.python.org/3/library/urllib.html)
+
 [![PrettyTable](https://img.shields.io/badge/-Pretty_Table-464646?logo=prettytable)](https://pypi.org/project/prettytable/)
 [![Requests_cache](https://img.shields.io/badge/-Requests--Cache-464646?logo=requests-cache)](https://requests-cache.readthedocs.io/en/stable/)
-[![Tqdm](https://img.shields.io/badge/-Tqdm-464646?logo=Tqdm)](https://github.com/tqdm/tqdm)
+[![Tqdm](https://img.shields.io/badge/-Tqdm-464646?logo=Tqdm)](https://github.com/tqdm/tqdm)(https://github.com/tqdm/tqdm)
 
 
 **Парсинг - библиотеки и модули:**
