@@ -1,4 +1,7 @@
 # Проект парсинга pep
+[![status](https://github.com/alexpro2022/bs4_parser_pep/actions/workflows/main.yml/badge.svg)](https://github.com/alexpro2022/bs4_parser_pep/actions)
+[![codecov](https://codecov.io/gh/alexpro2022/hw05_final/branch/master/graph/badge.svg?token=1ETL9DOJEB)](https://codecov.io/gh/alexpro2022/hw05_final)
+
 
 ## Оглавление
 - [Технологии](#технологии)

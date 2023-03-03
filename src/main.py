@@ -20,7 +20,7 @@ from utils import find_tag, get_response
 def whats_new(session):
     response = get_response(session, WHATS_NEW_URL)
     if response is None:
-        return
+        return None
     results = [('Ссылка на статью', 'Заголовок', 'Редактор, Автор')]
     main_section = BeautifulSoup(
         response.text, PARSER,
@@ -52,7 +52,7 @@ def whats_new(session):
 def latest_versions(session):
     response = get_response(session, MAIN_DOC_URL)
     if response is None:
-        return
+        return None
     results = [('Ссылка на документацию', 'Версия', 'Статус')]
     sidebar_ul_tags = BeautifulSoup(
         response.text, PARSER,
@@ -109,7 +109,7 @@ def download(session):
 def pep(session):
     response = get_response(session, PEPS_URL)
     if response is None:
-        return
+        return None
     status_counter = {}
     table_rows = BeautifulSoup(
         response.text, PARSER,
