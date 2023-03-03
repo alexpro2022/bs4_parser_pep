@@ -14,7 +14,6 @@ class OutputType(str, Enum):
 
 
 def control_output(results, cli_args):
-    '''
     if cli_args.output == OutputType.PRETTY:
         pretty_output(results)
     elif cli_args.output == OutputType.FILE:
@@ -29,6 +28,7 @@ def control_output(results, cli_args):
             file_output(results, cli_args)
         case _:
             default_output(results)
+    '''
 
 
 def default_output(results):
