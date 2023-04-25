@@ -15,9 +15,9 @@
 ## Технологии
 
 
-**Языки программирования, модули и библиотеки:**
+**Языки программирования, библиотеки и модули:**
 
-[![Python](https://warehouse-camo.ingress.cmh1.psfhosted.org/7c5873f1e0f4375465dfebd35bf18f678c74d717/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f7072657474797461626c652e7376673f6c6f676f3d707974686f6e266c6f676f436f6c6f723d464645383733)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue?logo=python)](https://www.python.org/)
 [![argparse](https://img.shields.io/badge/-argparse-464646?logo=python)](https://docs.python.org/3/howto/argparse.html)
 [![csv](https://img.shields.io/badge/-csv-464646?logo=python)](https://docs.python.org/3/library/csv.html)
 [![datetime](https://img.shields.io/badge/-datetime-464646?logo=python)](https://docs.python.org/3/library/datetime.html)
@@ -37,7 +37,7 @@
 [![Beautiful_Soup](https://img.shields.io/badge/-Beautiful_Soup_4-464646?logo=bs4)](https://beautiful-soup-4.readthedocs.io/en/latest/)
 
 
-**Тесты:**
+**Тестирование:**
 
 [![Pytest](https://img.shields.io/badge/-Pytest-464646?logo=Pytest)](https://docs.pytest.org/en/latest/)
 [![Pytest-cov](https://img.shields.io/badge/-Pytest--cov-464646?logo=Pytest)](https://pytest-cov.readthedocs.io/en/latest/)
@@ -86,23 +86,18 @@ cd bs4_parser_pep
 ```
 python -m venv venv
 ```
-* Если у вас Linux/macOS
+   * Если у вас Linux/macOS
 
-    ```
     source venv/bin/activate
-    ```
 
-* Если у вас windows
+   * Если у вас windows
 
-    ```
     source venv/Scripts/activate
-    ```
+
 
 4. Установить все необходимые зависимости из файла **requirements.txt**:
 ```
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-pip list
+python -m pip install --upgrade pip && pip install -r requirements.txt
 ```
 
 5. Перейти в папку **src**:

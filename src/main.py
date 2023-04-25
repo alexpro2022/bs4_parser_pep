@@ -154,10 +154,10 @@ MODE_TO_FUNCTION = {
 def main():
     configure_logging()
     logging.info('Парсер запущен!')
+    session = requests_cache.CachedSession()
     arg_parser = configure_argument_parser(MODE_TO_FUNCTION)
     args = arg_parser.parse_args()
     logging.info(f'Аргументы командной строки: {args}')
-    session = requests_cache.CachedSession()
     if args.clear_cache:
         session.cache.clear()
     results = MODE_TO_FUNCTION[args.mode](session)
