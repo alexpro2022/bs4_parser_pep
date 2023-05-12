@@ -13,7 +13,7 @@
 
 
 ## Технологии
-
+<details><summary>Развернуть</summary>
 
 **Языки программирования, библиотеки и модули:**
 
@@ -51,7 +51,7 @@
 [![Telegram](https://img.shields.io/badge/-Telegram-464646?logo=Telegram)](https://core.telegram.org/api)
 
 [⬆️Оглавление](#оглавление)
-
+</details>
 
 ## Описание работы
 Парсер работает в 4-х режимах (каждый режим обрабатывается одноименной функцией):
@@ -72,35 +72,28 @@
 
 
 ## Установка:
+Удобно использовать принцип copy-paste - копировать команды из GitHub Readme и вставлять в командную строку Git Bash или IDE (например VSCode).
 1. Клонировать репозиторий с GitHub:
 ```
-git clone git@github.com:alexpro2022/bs4_parser_pep.git
+git clone git@github.com:alexpro2022/bs4_parser_pep.git && cd bs4_parser_pep
 ```
 
-2. Перейти в созданную директорию проекта:
-```
-cd bs4_parser_pep
-```
-
-3. Создать и активировать виртуальное окружение:
-```
-python -m venv venv
-```
+2. Создайте и активируйте виртуальное окружение:
    * Если у вас Linux/macOS
+   ```
+    python -m venv venv && source venv/bin/activate
+   ```
+   * Если у вас Windows
+   ```
+    python -m venv venv && source venv/Scripts/activate
+   ```
 
-    source venv/bin/activate
-
-   * Если у вас windows
-
-    source venv/Scripts/activate
-
-
-4. Установить все необходимые зависимости из файла **requirements.txt**:
+3. Установите в виртуальное окружение все необходимые зависимости из файла **requirements.txt**:
 ```
 python -m pip install --upgrade pip && pip install -r requirements.txt
 ```
 
-5. Перейти в папку **src**:
+4. Перейдите в папку **src**:
 ```
 cd src
 ```
