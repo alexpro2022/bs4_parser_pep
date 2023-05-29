@@ -75,7 +75,7 @@
 Удобно использовать принцип copy-paste - копировать команды из GitHub Readme и вставлять в командную строку Git Bash или IDE (например VSCode).
 1. Клонировать репозиторий с GitHub:
 ```
-git clone git@github.com:alexpro2022/bs4_parser_pep.git && cd bs4_parser_pep
+git clone https://github.com/alexpro2022/bs4_parser_pep.git && cd bs4_parser_pep
 ```
 
 2. Создайте и активируйте виртуальное окружение:
@@ -104,7 +104,7 @@ cd src
 ## Справка по командам:
 Вызывается командой -h или --help:
 ```
-$ python main.py -h
+python main.py -h
 ```
 
 Выводится описание парсера, и его аргументы:
@@ -129,10 +129,10 @@ options:
 
 ## Запуск:
 Осуществляется по команде `python main.py` и добавлений нужной функции режима работы, например:
+```bash
+python main.py latest-versions
 ```
-$ python main.py latest-versions
-
-
+```bash
 "2022-12-13_17-49-40 - [INFO] - Парсер запущен!"
 "2022-12-13_17-49-40 - [INFO] - Аргументы командной строки: Namespace(mode='latest-versions', clear_cache=False, output=None)"
 Ссылка на документацию Версия Статус
@@ -153,10 +153,10 @@ https://www.python.org/doc/versions/ All versions
 При использвании доп. команд (`-o pretty` или `-o file`) вывод будет либо оформлен в виде таблицы и
 выведен в консоль, либо сохранён файлом с расширеним **.csv** соответственно:
 
+```bash
+python main.py latest-versions -o pretty
 ```
-$ python main.py latest-versions -o pretty
-
-
+```bash
 "2022-12-13_17-51-41 - [INFO] - Парсер запущен!"
 "2022-12-13_17-51-41 - [INFO] - Аргументы командной строки: Namespace(mode='latest-versions', clear_cache=False, output='pretty')"
 +--------------------------------------+--------------+----------------+
