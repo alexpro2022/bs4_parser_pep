@@ -191,7 +191,7 @@ python main.py latest-versions -o pretty
 ## Удаление:
 Для удаления проекта выполните следующие действия:
 ```
-cd ../.. && rm -fr bs4_parser_pep
+cd ../.. && rm -fr bs4_parser_pep && deactivate
 ```
   
 [⬆️Оглавление](#оглавление)
