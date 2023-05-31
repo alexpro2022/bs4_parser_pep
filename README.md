@@ -75,27 +75,27 @@
 ## Установка:
 Удобно использовать принцип copy-paste - копировать команды из GitHub Readme и вставлять в командную строку Git Bash или IDE (например VSCode).
 1. Клонировать репозиторий с GitHub:
-```
+```bash
 git clone https://github.com/alexpro2022/bs4_parser_pep.git && cd bs4_parser_pep
 ```
 
 2. Создайте и активируйте виртуальное окружение:
    * Если у вас Linux/macOS
-   ```
+   ```bash
     python -m venv venv && source venv/bin/activate
    ```
    * Если у вас Windows
-   ```
+   ```bash
     python -m venv venv && source venv/Scripts/activate
    ```
 
 3. Установите в виртуальное окружение все необходимые зависимости из файла **requirements.txt**:
-```
+```bash
 python -m pip install --upgrade pip && pip install -r requirements.txt
 ```
 
 4. Перейдите в папку **src**:
-```
+```bash
 cd src
 ```
 
@@ -104,12 +104,12 @@ cd src
 
 ## Справка по командам:
 Вызывается командой -h или --help:
-```
+```bash
 python main.py -h
 ```
 
 Выводится описание парсера, и его аргументы:
-```
+```bash
 usage: main.py [-h] [-c] [-o {pretty,file}] {whats-new,latest-versions,download,pep}
 
 Парсер документации Python
@@ -190,7 +190,7 @@ python main.py latest-versions -o pretty
 
 ## Удаление:
 Для удаления проекта выполните следующие действия:
-```
+```bash
 cd ../.. && rm -fr bs4_parser_pep && deactivate
 ```
   
@@ -208,7 +208,7 @@ cd ../.. && rm -fr bs4_parser_pep && deactivate
     <h3 id="t1"> Структура проекта </h3>
   </summary>
 
-```cmd
+```bash
 bs4_parser_pep:
 |   .flake8
 |   .gitignore
